@@ -1,0 +1,3 @@
+[submodule "Stats/Common"]
+	path = Stats/Common
+	url = https://github.com/lucarager/CS2-LucaModsCommon.git
