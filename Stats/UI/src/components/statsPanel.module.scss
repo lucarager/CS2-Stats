@@ -1,0 +1,36 @@
+.statsPanel {
+    position: absolute;
+    bottom: 100rem;
+    left: 20rem;
+    width: 200rem;
+
+    background-color: rgba(24, 24, 37, 0.75);
+    backdrop-filter: var(--panelBlur);
+    border-radius: 12rem;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    color: white;
+    overflow: hidden;
+    padding: 12rem;
+}
+
+
+.closeButton {
+    opacity: 0.3;
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 32rem;
+
+    &__icon {
+        width: 16rem;
+        height: 16rem;
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+}

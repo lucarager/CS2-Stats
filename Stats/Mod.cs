@@ -26,9 +26,7 @@ namespace Stats {
             new LocaleEN((Setting)settings);
 
         protected override void RegisterSystems(UpdateSystem updateSystem) {
-            // Sample system on the shared CommonGameSystemBase. Add/replace with your own.
             updateSystem.UpdateAt<Systems.StatsSystem>(SystemUpdatePhase.UIUpdate);
-            // Sample UI system on the shared ExtendedUISystemBase (C# <-> TS bindings).
             updateSystem.UpdateAt<Systems.StatsUISystem>(SystemUpdatePhase.UIUpdate);
         }
 

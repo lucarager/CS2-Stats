@@ -30,5 +30,5 @@
 	<!--External link, can be set multiple times.-->
 	<ExternalLink Type="" Url="" />
 	<!--Supported values Public, Private, Unlisted-->
-	<AccessLevel Value="Public" />
+	<AccessLevel Value="Unlisted" />
 </Publish>
