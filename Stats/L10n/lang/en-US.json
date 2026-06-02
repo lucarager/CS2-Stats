@@ -1,1 +1,5 @@
-{}
+{
+  "Options.SECTION[Stats.Stats.Mod]": "Stats",
+  "Stats.Stat[BIKERS]": "Citizens on Bikes",
+  "UI.Common.ModButtonTooltip": "Toggle Stats Panel"
+}

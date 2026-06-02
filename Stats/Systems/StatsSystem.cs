@@ -1,67 +1,63 @@
 namespace Stats.Systems {
-    using Colossal.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
     using Game.Common;
     using Game.Objects;
     using Game.Tools;
     using Game.Vehicles;
     using LucaModsCommon.Systems;
-    using Unity.Collections;
+    using Stats.Models;
     using Unity.Entities;
 
+    /// <summary>
+    /// Gathers statistics by sampling ECS entity queries at a fixed interval. New stats are
+    /// added via <see cref="Register"/> in <see cref="OnCreate"/>; the generic
+    /// <see cref="OnUpdate"/> loop handles aggregation for all registered stats.
+    /// </summary>
     public partial class StatsSystem : CommonGameSystemBase {
         private const int FRAME_INTERVAL = 60;
 
-        // Getters
-        public int BikersCountMax => m_BikersCountMax.value;
-        public int BikersCountLast => m_BikersCountLast.value;
+        private readonly List<StatRegistration> _stats = new();
+        private int _frameCount;
 
-        public bool EnableStats = true;
+        /// <summary>Returns a snapshot of all current aggregates for UI consumption.</summary>
+        public StatAggregate[] GetAggregates() => _stats.Select(s => s.Aggregate).ToArray();
 
-        // Containers
-        private NativeValue<int> m_BikersCountMax;
-        private NativeValue<int> m_BikersCountLast;
-        // Queries
-        private EntityQuery m_BikersQuery;
-        // Frame counter
-        private int m_FrameCount;
-
+        /// <inheritdoc/>
         protected override void OnCreate() {
             base.OnCreate();
 
-            // Initialize Containers
-            m_BikersCountMax  = new NativeValue<int>(0, Allocator.Persistent);
-            m_BikersCountLast = new NativeValue<int>(0, Allocator.Persistent);
-            m_FrameCount = 0;
-
-            // Initialize Queries
-            m_BikersQuery = SystemAPI.QueryBuilder()
-                                     .WithAll<Bicycle, Moving>()
-                                     .WithNone<Temp, Deleted, ParkedCar, Unspawned, Placeholder>()
-                                     .Build();
-
+            Register("BIKERS", SystemAPI.QueryBuilder()
+                .WithAll<Bicycle, Moving>()
+                .WithNone<Temp, Deleted, ParkedCar, Unspawned, Placeholder>()
+                .Build());
         }
 
-        protected override void OnDestroy() {
-            base.OnDestroy();
-
-            // Dispose Containers
-            m_BikersCountMax.Dispose();
-            m_BikersCountLast.Dispose();
-        }
-
+        /// <inheritdoc/>
         protected override void OnUpdate() {
-            // Don't run if disabled
-            if (!EnableStats) return;
+            if (++_frameCount % FRAME_INTERVAL != 0) return;
 
-            // Don't do this every frame
-            if (m_FrameCount++ % FRAME_INTERVAL != 0) return;
-
-            // Update counts
-            var bikersCount = m_BikersQuery.CalculateEntityCount();
-            if (bikersCount > m_BikersCountMax.value) {
-                m_BikersCountMax.value = bikersCount;
+            foreach (var stat in _stats) {
+                stat.Aggregate.Update(stat.Query.CalculateEntityCount());
             }
-            m_BikersCountLast.value = bikersCount;
+        }
+
+        /// <summary>Registers a new statistic to be sampled each tick.</summary>
+        /// <param name="key">L10n key (must have a matching entry in <see cref="LocaleEN"/>).</param>
+        /// <param name="query">ECS query whose entity count is the sampled value.</param>
+        private void Register(string key, EntityQuery query) {
+            _stats.Add(new StatRegistration(key, query));
+        }
+
+        /// <summary>Pairs an <see cref="EntityQuery"/> with its running <see cref="StatAggregate"/>.</summary>
+        private class StatRegistration {
+            public StatAggregate Aggregate { get; }
+            public EntityQuery Query { get; }
+
+            public StatRegistration(string key, EntityQuery query) {
+                Aggregate = new StatAggregate(key);
+                Query = query;
+            }
         }
     }
 }

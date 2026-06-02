@@ -1,17 +1,19 @@
 import { useValue } from "cs2/api";
 import { c } from "utils/classes";
 import { GAME_BINDINGS } from "gameBindings";
-import { Button } from "cs2/ui";
+import { Button, Tooltip } from "cs2/ui";
+import { useLocalization } from "cs2/l10n";
 
 export const ModButton = () => {
-    const bikersCountMax = useValue(GAME_BINDINGS.BIKERS_COUNT_MAX.binding);
-    const bikersCountLast = useValue(GAME_BINDINGS.BIKERS_COUNT_LAST.binding);
     const open = useValue(GAME_BINDINGS.PANEL_OPEN.binding);
-
+    const { translate } = useLocalization();
+    
     return (
+
         <Button
-            src={"coui://uil/Standard/XClose.svg"}
+            src={"coui://stats/logo.svg"}
             variant="floating"
+            tooltipLabel={translate("UI.Common.ModButtonTooltip", "Toggle Stats Panel")}
             onSelect={() => GAME_BINDINGS.PANEL_OPEN.set(!open)}
         />
     );

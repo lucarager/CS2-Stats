@@ -1,9 +1,14 @@
 import { TwoWayBinding } from "utils/bidirectionalBinding";
 
-// Shared two-way bindings (C# <-> UI). Each key matches a CreateBinding(key, ...) call in
-// StatsUISystem: read with `useValue(BINDING.binding)`, push back with `BINDING.set(value)`.
+export interface StatAggregate {
+    Key: string;
+    Current: number;
+    Max: number;
+    Min: number;
+    Mean: number;
+}
+
 export const GAME_BINDINGS = {
-    BIKERS_COUNT_LAST: new TwoWayBinding<number>("BIKERS_COUNT_LAST", 0),
-    BIKERS_COUNT_MAX: new TwoWayBinding<number>("BIKERS_COUNT_MAX", 0),
+    STATS_DATA: new TwoWayBinding<StatAggregate[]>("STATS_DATA", []),
     PANEL_OPEN: new TwoWayBinding<boolean>("PANEL_OPEN", false),
 };

@@ -23,13 +23,17 @@
 
     public class LocaleEN : IDictionarySource {
         private readonly Setting m_Setting;
+        
         public LocaleEN(Setting setting) {
             m_Setting = setting;
         }
+
         public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts) {
             return new Dictionary<string, string>
             {
                 { m_Setting.GetSettingsLocaleID(), "Stats" },
+                { "Stats.Stat[BIKERS]", "Citizens on Bikes" },
+                { "UI.Common.ModButtonTooltip", "Toggle Stats Panel" }
             };
         }
 
