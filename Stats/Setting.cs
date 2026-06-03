@@ -11,10 +11,20 @@
     using Game.UI.Widgets;
 
     [FileLocation(nameof(Stats))]
+    [SettingsUIGroupOrder(KeybindingsGroupStr)]
+    [SettingsUIShowGroupName(KeybindingsGroupStr)]
+    [SettingsUIKeyboardAction(TogglePanelStr, ActionType.Button)]
     public class Setting : ModSetting {
+        public const string KeybindingsGroupStr = "KeybindingsGroupStr";
+        public const string TogglePanelStr = nameof(TogglePanel);
+
         public Setting(IMod mod) : base(mod) {
 
         }
+
+        [SettingsUISection(KeybindingsGroupStr)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.S, TogglePanelStr, ctrl: true, alt: true)]
+        public ProxyBinding TogglePanel { get; set; }
 
         public override void SetDefaults() {
         }
@@ -32,6 +42,9 @@
             return new Dictionary<string, string>
             {
                 { m_Setting.GetSettingsLocaleID(), "Stats" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.KeybindingsGroupStr), "Keybindings" },
+                { m_Setting.GetOptionLabelLocaleID(Setting.TogglePanelStr), "Toggle Stats Panel" },
+                { m_Setting.GetOptionDescLocaleID(Setting.TogglePanelStr), "Opens or closes the Stats panel" },
                 { "Stats.Stat[BIKERS]", "Citizens on Bikes" },
                 { "UI.Common.ModButtonTooltip", "Toggle Stats Panel" }
             };
