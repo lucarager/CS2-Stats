@@ -18,7 +18,7 @@ namespace Stats.Systems {
             m_StatsData   = CreateBinding("STATS_DATA", System.Array.Empty<StatAggregate>());
             m_PanelOpen = CreateBinding("PANEL_OPEN",
                                        false,
-                                       value => { MLog.Debug($"PANEL_OPEN set from UI: {value}"); });
+                                       value => { m_Log.Debug($"PANEL_OPEN set from UI: {value}"); });
 
             m_TogglePanelAction                 = ((Setting)Mod.Instance.Settings).GetAction(Setting.TOGGLE_PANEL_STR);
             m_TogglePanelAction.shouldBeEnabled = true;
