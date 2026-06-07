@@ -15,13 +15,13 @@ namespace Stats.Systems {
     /// <see cref="OnUpdate"/> loop handles aggregation for all registered stats.
     /// </summary>
     public partial class StatsSystem : CommonGameSystemBase {
-        private const int FRAME_INTERVAL = 60;
+        private const int FrameInterval = 60;
 
-        private readonly List<StatRegistration> _stats = new();
-        private int _frameCount;
+        private readonly List<StatRegistration> m_Stats = new();
+        private int m_FrameCount;
 
         /// <summary>Returns a snapshot of all current aggregates for UI consumption.</summary>
-        public StatAggregate[] GetAggregates() => _stats.Select(s => s.Aggregate).ToArray();
+        public StatAggregate[] GetAggregates() => m_Stats.Select(s => s.Aggregate).ToArray();
 
         /// <inheritdoc/>
         protected override void OnCreate() {
@@ -35,18 +35,18 @@ namespace Stats.Systems {
 
         /// <inheritdoc/>
         protected override void OnUpdate() {
-            if (++_frameCount % FRAME_INTERVAL != 0) return;
+            if (++m_FrameCount % FrameInterval != 0) return;
 
-            foreach (var stat in _stats) {
+            foreach (var stat in m_Stats) {
                 stat.Aggregate.Update(stat.Query.CalculateEntityCount());
             }
         }
 
         /// <summary>Registers a new statistic to be sampled each tick.</summary>
-        /// <param name="key">L10n key (must have a matching entry in <see cref="LocaleEN"/>).</param>
+        /// <param name="key">L10n key (must have a matching entry in <see cref="LocaleEn"/>).</param>
         /// <param name="query">ECS query whose entity count is the sampled value.</param>
         private void Register(string key, EntityQuery query) {
-            _stats.Add(new StatRegistration(key, query));
+            m_Stats.Add(new StatRegistration(key, query));
         }
 
         /// <summary>Pairs an <see cref="EntityQuery"/> with its running <see cref="StatAggregate"/>.</summary>

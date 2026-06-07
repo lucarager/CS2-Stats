@@ -23,7 +23,7 @@ namespace Stats {
         protected override ModSetting CreateSettings(IMod mod) => new Setting(mod);
 
         protected override IDictionarySource CreateEnUsLocalization(ModSetting settings) =>
-            new LocaleEN((Setting)settings);
+            new LocaleEn((Setting)settings);
 
         protected override void RegisterSystems(UpdateSystem updateSystem) {
             updateSystem.UpdateAt<Systems.StatsSystem>(SystemUpdatePhase.UIUpdate);
@@ -35,7 +35,7 @@ namespace Stats {
         /// EXPORT_EN_US directive (the shared I18N configuration) so translators have an up-to-date file.
         /// </summary>
         protected override void GenerateLanguageFile() {
-            var entries = new LocaleEN((Setting)Settings)
+            var entries = new LocaleEn((Setting)Settings)
                           .ReadEntries(new List<IDictionaryEntryError>(), new Dictionary<string, int>())
                           .ToDictionary(pair => pair.Key, pair => pair.Value);
             var json = JsonConvert.SerializeObject(entries, Formatting.Indented);
