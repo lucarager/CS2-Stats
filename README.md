@@ -1,2 +1,2 @@
-# CS2-NetworkTools
+# CS2-Stats
 
