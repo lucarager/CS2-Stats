@@ -46,6 +46,8 @@
                 { m_Setting.GetOptionLabelLocaleID(Setting.TOGGLE_PANEL_STR), "Toggle Stats Panel" },
                 { m_Setting.GetOptionDescLocaleID(Setting.TOGGLE_PANEL_STR), "Opens or closes the Stats panel" },
                 { "Stats.Stat[BIKERS]", "Citizens on Bikes" },
+                { "Stats.Stat[BIKE_TRIPS]", "Bike Trips" },
+                { "Stats.Stat[BIKE_OWNERS]", "Bike Owners" },
                 { "UI.Common.ModButtonTooltip", "Toggle Stats Panel" }
             };
         }

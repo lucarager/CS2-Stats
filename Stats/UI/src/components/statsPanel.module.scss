@@ -1,8 +1,10 @@
+$section-spacing: 16rem;
+
 .statsPanel {
     position: absolute;
     bottom: 106rem;
     left: 10rem;
-    width: 200rem;
+    width: 300rem;
 
     background-color: rgba(24, 24, 37, 0.75);
     backdrop-filter: var(--panelBlur);
@@ -12,14 +14,40 @@
     pointer-events: auto;
     color: white;
     overflow: hidden;
-    padding: 12rem;
-    gap: 8rem;
+    padding: 16rem;    
+
+    &__header {
+        display: flex;        
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: $section-spacing;
+        padding-bottom: 4rem;
+        flex: 1;
+
+        div {
+            display: flex;        
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            width: 24rem;
+            height: 24rem;
+            margin-right: 8rem;
+        }
+
+        span {
+            font-size: 14rem;
+            color: white;
+        }
+    }
 }
+
 
 .statGroup {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    padding-left: 4rem;
 
     &__heading {
         font-weight: bold;
@@ -50,22 +78,56 @@
     }
 }
 
-.closeButton {
-    opacity: 0.3;
-    padding: 4rem;
+.startButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 8rem;
-    right: 8rem;
-
-    &__icon {
-        width: 16rem;
-        height: 16rem;
-    }
+    padding: 8rem 12rem;
+    border-radius: 8rem;
+    background-color: rgba(40, 221, 255, 0.15);
+    color: #28DDFF;
+    font-size: 14rem;
+    font-weight: bold;
 
     &:hover {
+        background-color: rgba(40, 221, 255, 0.3);
+    }
+}
+
+.timerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;    
+    margin-bottom: $section-spacing;
+
+    &__time {
+        font-size: 18rem;
+        font-weight: bold;
+        font-variant-numeric: tabular-nums;
+        color: white;
+    }
+
+    &__limit {
+        opacity: 0.5;
+    }
+
+    &__controls {
+        display: flex;
+
+        & > * {
+            margin-left: 4rem;
+        }
+
+        & > *:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.iconButton {
+    opacity: 0.6;
+
+    &:hover, &:active {
         opacity: 1;
     }
 }

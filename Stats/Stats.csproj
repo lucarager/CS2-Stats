@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<Title>Stats</Title>
-		<Version>1.0.1</Version>
+		<Version>1.0.3</Version>
 		<AssemblyVersion>$(Version).0</AssemblyVersion>
 		<FileVersion>$(Version).0</FileVersion>
 		<!--The file where mod information which is required for publishing mod on PDX mods are stored-->
@@ -27,10 +27,6 @@
 	<ItemGroup>
 		<None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
 		<None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Assets\" />
 	</ItemGroup>
 
 	<!-- Embed translation files so LoadNonEnglishLocalizations can read them

@@ -1,6 +1,7 @@
 namespace Stats.Systems {
     using System.Collections.Generic;
     using System.Linq;
+    using Game.Citizens;
     using Game.Common;
     using Game.Objects;
     using Game.Tools;
@@ -10,15 +11,15 @@ namespace Stats.Systems {
     using Unity.Entities;
 
     /// <summary>
-    /// Gathers statistics by sampling ECS entity queries at a fixed interval. New stats are
-    /// added via <see cref="Register"/> in <see cref="OnCreate"/>; the generic
-    /// <see cref="OnUpdate"/> loop handles aggregation for all registered stats.
+    /// Gathers statistics by sampling ECS entity queries at a fixed interval. 
     /// </summary>
     public partial class StatsSystem : CommonGameSystemBase {
         private const int FrameInterval = 60;
 
         private readonly List<StatRegistration> m_Stats = new();
-        private int m_FrameCount;
+        private int             m_FrameCount;
+        private ChallengeSystem m_ChallengeSystem;
+        private int             m_LastRunId;
 
         /// <summary>Returns a snapshot of all current aggregates for UI consumption.</summary>
         public StatAggregate[] GetAggregates() => m_Stats.Select(s => s.Aggregate).ToArray();
@@ -27,14 +28,30 @@ namespace Stats.Systems {
         protected override void OnCreate() {
             base.OnCreate();
 
+            m_ChallengeSystem = World.GetOrCreateSystemManaged<ChallengeSystem>();
+
             Register("BIKERS", SystemAPI.QueryBuilder()
                 .WithAll<Bicycle, Moving>()
                 .WithNone<Temp, Deleted, ParkedCar, Unspawned, Placeholder>()
+                .Build());
+
+            Register("BIKE_OWNERS", SystemAPI.QueryBuilder()
+                .WithAll<BicycleOwner>()
+                .WithNone<Temp, Deleted>()
                 .Build());
         }
 
         /// <inheritdoc/>
         protected override void OnUpdate() {
+            // A new run zeroes every aggregate so min/max/mean restart for the challenge window.
+            if (m_ChallengeSystem.RunId != m_LastRunId) {
+                foreach (var stat in m_Stats) stat.Aggregate.Reset();
+                m_LastRunId = m_ChallengeSystem.RunId;
+            }
+
+            // Only sample while a run is actively collecting; otherwise the aggregates stay frozen.
+            if (!m_ChallengeSystem.IsCollecting) return;
+
             if (++m_FrameCount % FrameInterval != 0) return;
 
             foreach (var stat in m_Stats) {

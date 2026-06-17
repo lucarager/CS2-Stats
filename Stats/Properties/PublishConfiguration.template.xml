@@ -2,24 +2,25 @@
 	<!--Id must be set in order to update existing mod. Not required for the first publish.-->
 	<ModId Value="146296" />
 	<!--Name of the mod to display to players-->
-	<DisplayName Value="Luca's Stats Mod" />
+	<DisplayName Value="CPP One Hour Bike Challenge" />
 	<!--Short description of the mod-->
 	<ShortDescription Value="A Cities: Skylines 2 mod." />
 	<!--Long description. Injected from Properties/LongDescription.md by GeneratePublishConfiguration.-->
 	<LongDescription>
+		Mod that counts things for the CPP One Hour Bike Challenge.
 	</LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail.png" />
+	<Thumbnail Value="Properties/thumb.jpg" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="" />
+	<Screenshot Value="Properties/cover.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="" />
 	<!--Version of the mod. Injected from $(Version) by GeneratePublishConfiguration.-->
-	<ModVersion Value="1.0.0" />
+	<ModVersion Value="1.0.1" />
 	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.5.*" />
+	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Required DLC, can be set multiple times.-->

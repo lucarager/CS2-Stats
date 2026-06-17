@@ -26,6 +26,8 @@ namespace Stats {
             new LocaleEn((Setting)settings);
 
         protected override void RegisterSystems(UpdateSystem updateSystem) {
+            updateSystem.UpdateAt<Systems.ChallengeSystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<Systems.BikeTripsSystem>(SystemUpdatePhase.GameSimulation);
             updateSystem.UpdateAt<Systems.StatsSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<Systems.StatsUISystem>(SystemUpdatePhase.UIUpdate);
         }

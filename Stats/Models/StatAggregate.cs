@@ -19,6 +19,13 @@ namespace Stats.Models {
         /// <summary>Running arithmetic mean (Welford's online algorithm).</summary>
         public double Mean;
 
+        /// <summary>
+        /// When <c>true</c>, this stat is a monotonic session counter (e.g. completed trips) rather
+        /// than a sampled gauge: only <see cref="Current"/> is meaningful and the UI renders it as a
+        /// single total. <see cref="Max"/>, <see cref="Min"/> and <see cref="Mean"/> are left unset.
+        /// </summary>
+        public bool IsCounter;
+
         private long m_SampleCount;
 
         /// <summary>Initializes a new instance of the <see cref="StatAggregate"/> class.</summary>
@@ -28,6 +35,15 @@ namespace Stats.Models {
         /// <param name="key">L10n lookup key that identifies this stat.</param>
         public StatAggregate(string key) {
             Key = key;
+        }
+
+        /// <summary>Clears all accumulated state so the aggregate restarts from a clean slate.</summary>
+        public void Reset() {
+            Current       = 0;
+            Max           = 0;
+            Min           = 0;
+            Mean          = 0;
+            m_SampleCount = 0;
         }
 
         /// <summary>
